@@ -17,6 +17,12 @@ export class User {
   @Column()
   last_name: string
 
+  @Column()
+  avatar: string
+
+  @Column({ length: 25 })
+  phone: string
+
   @Column({ nullable: true })
   id_lol: number
 

@@ -36,7 +36,7 @@ export default class UsersController {
   }
 
   async create (request: Request, response: Response): Promise<Response> {
-    const { name, last_name, email, genre, birth_date, password } = request.body
+    const { name, last_name, email, genre, birth_date, password, phone } = request.body
 
     const createUser = new CreateUserService()
 
@@ -46,7 +46,8 @@ export default class UsersController {
       email,
       genre,
       birth_date,
-      password
+      password,
+      phone
     })
 
     const Mailer = new SendEmailService()
@@ -56,12 +57,12 @@ export default class UsersController {
   }
 
   async delete (request: Request, response: Response): Promise<Response> {
-    const { email } = request.params
+    const { id } = request.params
 
     const deleteProduct = new DeleteUserService()
 
     await deleteProduct.execute({
-      email
+      id
     })
 
     return response.json([])

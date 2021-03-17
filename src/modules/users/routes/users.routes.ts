@@ -1,12 +1,19 @@
 import { celebrate, Joi, Segments } from 'celebrate'
 import { Router } from 'express'
 import { isAuthenticated } from 'src/shared/middlewares/isAuthenticated'
+import multer from 'multer'
 
 import UsersController from '../controllers/service-controller'
+import uploadConfig from '@config/upload'
+import { UserAvatarController } from '../controllers/user-avatar-controller'
 
 const usersRouter = Router()
 
 const usersController = new UsersController()
+
+const usersAvatarController = new UserAvatarController()
+
+const upload = multer(uploadConfig)
 
 usersRouter.get('/', isAuthenticated, usersController.index)
 
@@ -37,10 +44,17 @@ usersRouter.post(
   usersController.create
 )
 
-usersRouter.delete('/:email',
+usersRouter.patch(
+  '/avatar',
+  isAuthenticated,
+  upload.single('avatar'),
+  usersAvatarController.update
+)
+
+usersRouter.delete('/:id',
   celebrate({
     [Segments.PARAMS]: {
-      email: Joi.string().email().required()
+      id: Joi.string().uuid().required()
     }
   }),
   usersController.delete

@@ -5,6 +5,10 @@ import { router } from './routes'
 import AppError from './shared/errors/app-error'
 import './shared/typeorm'
 import { errors } from 'celebrate'
+import { options } from '@config/swaggerOptions'
+import swaggerDocument from './config/swagger.json'
+
+import swaggerUi from 'swagger-ui-express'
 
 const app = express()
 app.use(express.urlencoded({
@@ -36,6 +40,12 @@ app.use(
 )
 
 const port = process.env.PORT || 3003
+
+app.get('/', (req, res) => {
+  res.send('Bem vindo ao MyduoGG :)')
+})
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
 
 app.listen(port, () => {
   console.log('\x1b[33m%s\x1b[0m', `=> 🚀 Server running on the port: ${port}`)

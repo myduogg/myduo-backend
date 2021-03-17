@@ -13,10 +13,11 @@ interface UserDTO {
   password: string
   genre: string
   birth_date: string
+  phone: string
 }
 
 export class CreateUserService {
-  async execute ({ name, last_name, email, password, genre, birth_date }: UserDTO): Promise<User> {
+  async execute ({ name, last_name, email, password, genre, birth_date, phone }: UserDTO): Promise<User> {
     const usersRepository = getCustomRepository(UserRepository)
 
     const emailExists = await usersRepository.findByEmail(email)
@@ -33,7 +34,8 @@ export class CreateUserService {
       last_name,
       email,
       genre,
-      birth_date
+      birth_date,
+      phone
 
     })
 

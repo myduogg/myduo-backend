@@ -39,14 +39,14 @@ app.use(
   }
 )
 
-const port = process.env.PORT || 3003
+const port = process.env.PORT || 3333
 
 app.get('/', (req, res) => {
   res.send('Bem vindo ao MyduoGG :)')
 })
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
-
-app.listen(port, () => {
+const host = '0.0.0.0'
+app.listen(port,host, () => {
   console.log('\x1b[33m%s\x1b[0m', `=> 🚀 Server running on the port: ${port}`)
 })

@@ -1,10 +1,10 @@
 import { celebrate, Joi, Segments } from 'celebrate'
 import { Router } from 'express'
-import { isAuthenticated } from 'src/shared/middlewares/isAuthenticated'
+import { isAuthenticated } from '../../../shared/middlewares/isAuthenticated'
 import multer from 'multer'
 
 import UsersController from '../controllers/service-controller'
-import uploadConfig from '@config/upload'
+import uploadConfig from '../../../config/upload'
 import { UserAvatarController } from '../controllers/user-avatar-controller'
 
 const usersRouter = Router()

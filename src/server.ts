@@ -5,7 +5,7 @@ import { router } from './routes'
 import AppError from './shared/errors/app-error'
 import './shared/typeorm'
 import { errors } from 'celebrate'
-import { options } from '@config/swaggerOptions'
+import { options } from './config/swaggerOptions'
 import swaggerDocument from './config/swagger.json'
 
 import swaggerUi from 'swagger-ui-express'

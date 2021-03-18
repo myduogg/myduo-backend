@@ -1,0 +1,382 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Documentação da Api do Myduo.",
+        "version": "1.0.0",
+        "title": "Swagger MyduoGG",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "myduogg@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "myduo.swagger.io",
+    "basePath": "/v2",
+    "tags": [
+        {
+            "name": "user",
+            "description": "Operations about user",
+            "externalDocs": {
+                "description": "Find out more about our store",
+                "url": "http://swagger.io"
+            }
+        }
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/user": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Create user",
+                "description": "Cria um usuário (Sem nenhum Jogo adicionado)",
+                "operationId": "createUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created user object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserOne"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "User already exists"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "List users",
+                "description": "Apenas para usuários já logados (autenticados)",
+                "operationId": "loginUser",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return All Users []"
+                    },
+                    "403": {
+                        "description": "Token is invalid"
+                    },
+                    "400": {
+                        "description": "Token is missing"
+                    }
+                }
+            }
+        },
+        "/user/sessions": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Create session for user",
+                "description": "Cria uma sessão com um Token JWT com duração de 60d",
+                "operationId": "createSession",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Email and passsword user",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Sessions"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTczOTA0NTc2LCJleHAiOjE1NzM5MDQ4NzZ9.jNevuavLpAuNeVhbZKAfV_ls8S1FIyCYAEI3T_fXvT7_-GGhxxUp_XpUlkvvTOS4v3mfJI20pYToCpsQAIVgG9d9Nj_u50MkwNjfO6EEDpBRT7ZwphPDpotTl_spXBasRT2gR-7vKTe6_o_jb0NQ13lkR74kTs7ZjCqM7qJUDfE"
+                    },
+                    "400": {
+                        "description": "Email/Password is invalid"
+                    }
+                }
+            }
+        },
+        "/user/avatar": {
+            "patch": {
+                "tags": [
+                    "user"
+                ],
+                "sumary": "Update user avatar",
+                "description": "Apenas para usuários já logados (autenticados)",
+                "operationId": "avatarUser",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "Image File",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Return User ",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{useremail}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "List one user",
+                "description": "Apenas para usuários já logados (autenticados)",
+                "operationId": "loginsUser",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return One Users ",
+                        "schema": {
+                            "$ref": "#/definitions/UserOne"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update User info",
+                "description": "Apenas para usuários já logados (autenticados)",
+                "operationId": "updateUser",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Delete",
+                "description": "Apenas para usuários já logados (autenticados)",
+                "operationId": "deleteUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created user object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "[]"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "401": {
+                        "description": "User not authenticated"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "petstore_auth": {
+            "type": "oauth2",
+            "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+            "flow": "implicit",
+            "scopes": {
+                "write:pets": "modify pets in your account",
+                "read:pets": "read your pets"
+            }
+        },
+        "api_key": {
+            "type": "apiKey",
+            "name": "api_key",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "password": {
+                    "type": "string",
+                    "format": "password"
+                },
+                "avatar": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "phone": {
+                    "type": "string",
+                    "format": "phone"
+                },
+                "genre": {
+                    "type": "string"
+                },
+                "birth_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "id_lol": {
+                    "type": "string"
+                },
+                "id_valorant": {
+                    "type": "string"
+                },
+                "reputation": {
+                    "type": "number",
+                    "format": "double",
+                    "minimum": "0",
+                    "maximum": "100.0"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "xml": {
+                "name": "User"
+            }
+        },
+        "UserOne": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "avatar": {
+                    "type": "string"
+                },
+                "id_lol": {
+                    "type": "string"
+                },
+                "id_valorant": {
+                    "type": "string"
+                },
+                "reputation": {
+                    "type": "number",
+                    "format": "double",
+                    "minimum": "0",
+                    "maximum": "100.0"
+                },
+                "birth_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "genre": {
+                    "type": "string"
+                }
+            }
+        },
+        "Sessions": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    }
+}
